@@ -9,13 +9,13 @@ datagen = ImageDataGenerator(
     shear_range=0.2,
     zoom_range=0.2,
     horizontal_flip=True,
-    fill_mode='wrap')
+    fill_mode='constant')
 
 # Specify the directory where your original images are located
-original_dataset_dir = 'C:/Users/volka/PycharmProjects/pythonProject1/images'
+original_dataset_dir = 'C:/Users/volka\PycharmProjects\pythonProject1\imagesAll/resized'
 
 # Specify the directory where you want to save the augmented images
-augmented_dataset_dir = 'C:/Users/volka/PycharmProjects/pythonProject1/augmented'
+augmented_dataset_dir = 'C:/Users/volka\PycharmProjects\pythonProject1\imagesAll/augmented'
 
 # Loop through each folder (class) in the original dataset directory
 for class_name in os.listdir(original_dataset_dir):
