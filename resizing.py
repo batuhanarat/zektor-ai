@@ -21,7 +21,9 @@ def resize_images_in_folder(folder_path,target_path, target_size):
                 print(f"Error resizing image {filename}: {str(e)}")
 
 # Example usage
-folder_path = "C:/Users/volka\PycharmProjects\pythonProject1\imagesAll\images/2"
-target_path = "C:/Users/volka\PycharmProjects\pythonProject1\imagesAll/resized/2"
-target_size = (128, 128)  # Specify the target size here
-resize_images_in_folder(folder_path,target_path, target_size)
+for i in range(1,5):
+    for mode in ["train","test"]:
+        folder_path = f"C:/Users/volka\PycharmProjects\pythonProject1\imagesAll/{mode}/images/{i}"
+        target_path = f"C:/Users/volka\PycharmProjects\pythonProject1\imagesAll/{mode}/resized/{i}"
+        target_size = (128, 128)  # Specify the target size here
+        resize_images_in_folder(folder_path,target_path, target_size)

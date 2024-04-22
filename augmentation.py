@@ -3,19 +3,17 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator, img_to_arra
 
 # Define your ImageDataGenerator with the desired augmentations
 datagen = ImageDataGenerator(
-    rotation_range=40,
+    rotation_range=80,
     width_shift_range=0.15,
     height_shift_range=0.15,
-    shear_range=0.2,
-    zoom_range=0.2,
     horizontal_flip=True,
     fill_mode='constant')
 
 # Specify the directory where your original images are located
-original_dataset_dir = 'C:/Users/volka\PycharmProjects\pythonProject1\imagesAll/resized'
+original_dataset_dir = 'C:/Users/volka\PycharmProjects\pythonProject1\imagesAll/test/resized'
 
 # Specify the directory where you want to save the augmented images
-augmented_dataset_dir = 'C:/Users/volka\PycharmProjects\pythonProject1\imagesAll/augmented'
+augmented_dataset_dir = 'C:/Users/volka\PycharmProjects\pythonProject1\imagesAll/test/augmented'
 
 # Loop through each folder (class) in the original dataset directory
 for class_name in os.listdir(original_dataset_dir):
@@ -36,5 +34,5 @@ for class_name in os.listdir(original_dataset_dir):
         for batch in datagen.flow(x, batch_size=1, save_to_dir=augmented_class_dir, save_prefix='aug',
                                   save_format='jpeg'):
             i += 1
-            if i > 20:  # Save 20 augmented images per original image
+            if i >40 :  # Save 20 augmented images per original image
                 break

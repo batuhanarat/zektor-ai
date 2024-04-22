@@ -5,7 +5,7 @@ from PIL import Image
 
 
 def create_user():
-    url = 'http://172.20.10.3:5002/user'
+    url = 'http://192.168.43.43:5002/user'
 
     # Prepare headers and payload
     headers = {'Content-Type': 'application/json'}
@@ -20,7 +20,7 @@ def create_user():
 
 
 def create_plant(user_id, plant_type):
-    url = 'http://172.20.10.3:5002/plant'
+    url = 'http://192.168.43.43:5002/plant'
     headers = {'Content-Type': 'application/json'}
     payload = {
         'userId': user_id,  # Corrected to pass the user_id as an object with a 'userId' property
@@ -35,7 +35,7 @@ plant_type = "lettuce"  # Corrected variable name from 'type' to 'plant_type' to
 #create_plant("66264c11c15bb16b60f83eaa", "lettuce")
 
 def create_plant_image(plantImage,plantOrder,userId):
-    url = 'http://172.20.10.3:5002/plantImage'
+    url = 'http://192.168.43.43:5002/plantImage'
     headers = {'Content-Type': 'application/json'}
     payload = {
         'base64': plantImage,  # Corrected to pass the user_id as an object with a 'userId' property
@@ -70,15 +70,15 @@ def test_user_endpoint():
     create_user()
 
 def test_plant_endpoint():
-    userId = "66266df42fc41b0d13849d3e"
+    userId = "662679432fc41b0d13849d50"
     plant_type = "lettuce"  # Corrected variable name from 'type' to 'plant_type' to avoid conflict
     create_plant(userId, "lettuce")
 
 def test_image_endpoint():
-    file_path = "1-25.jpg"
+    file_path = "Screenshot 2024-04-22 125444.jpg"
     image = Image.open(file_path)
     image= image.resize((64, 64))
     encoded_image = encode_file_to_base64(image)
-    create_plant_image(encoded_image,0,"66266df42fc41b0d13849d3e")
+    create_plant_image(encoded_image,0,"662679432fc41b0d13849d50")
 
 test_image_endpoint()
