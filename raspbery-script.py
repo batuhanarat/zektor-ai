@@ -1,11 +1,12 @@
 import requests
 import base64
+import json
 from io import BytesIO
 from PIL import Image
 
 
 def create_user():
-    url = 'http://192.168.43.43:5002/user'
+    url = f'http://18.206.230.56:5002/user'
 
     # Prepare headers and payload
     headers = {'Content-Type': 'application/json'}
@@ -18,9 +19,16 @@ def create_user():
     response = requests.post(url, json=payload, headers=headers)
     print(response.text)
 
-
+def get_plants(user_id):
+    url = f'http://18.206.230.56:5002/user/{user_id}/plants'
+    headers = {'Content-Type': 'application/json'}
+    payload = {
+    }
+    response = requests.get(url, json=payload, headers=headers)
+    print(response.text)
+    return response.text
 def create_plant(user_id, plant_type):
-    url = 'http://192.168.43.43:5002/plant'
+    url = f'http://18.206.230.56:5002/plant'
     headers = {'Content-Type': 'application/json'}
     payload = {
         'userId': user_id,  # Corrected to pass the user_id as an object with a 'userId' property
@@ -35,7 +43,7 @@ plant_type = "lettuce"  # Corrected variable name from 'type' to 'plant_type' to
 #create_plant("66264c11c15bb16b60f83eaa", "lettuce")
 
 def create_plant_image(plantImage,plantOrder,userId):
-    url = 'http://192.168.43.43:5002/plantImage'
+    url = f'http://18.206.230.56:5002/user/{userId}/plants'
     headers = {'Content-Type': 'application/json'}
     payload = {
         'base64': plantImage,  # Corrected to pass the user_id as an object with a 'userId' property
@@ -66,19 +74,28 @@ def encode_file_to_base64(image):
 # response = requests.post(url, json=payload, headers=headers)
 # print(response.text)
 
+def test_any_plant_present():
+    userId = "662662b67c7dbfe819c80072"
+    response_json = get_plants(userId)
+    response_list = json.loads(response_json)
+    element_count = len(response_list)
+    print(element_count)
 def test_user_endpoint():
     create_user()
 
 def test_plant_endpoint():
-    userId = "662679432fc41b0d13849d50"
+    userId = "66266df42fc41b0d13849d3e"
     plant_type = "lettuce"  # Corrected variable name from 'type' to 'plant_type' to avoid conflict
     create_plant(userId, "lettuce")
 
+
+
 def test_image_endpoint():
-    file_path = "Screenshot 2024-04-22 125444.jpg"
+    file_path = "1-25.jpg"
     image = Image.open(file_path)
     image= image.resize((64, 64))
     encoded_image = encode_file_to_base64(image)
-    create_plant_image(encoded_image,0,"662679432fc41b0d13849d50")
+    create_plant_image(encoded_image,0,"66266df42fc41b0d13849d3e")
 
-test_image_endpoint()
+test_any_plant_present()
+
