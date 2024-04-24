@@ -43,7 +43,7 @@ plant_type = "lettuce"  # Corrected variable name from 'type' to 'plant_type' to
 #create_plant("66264c11c15bb16b60f83eaa", "lettuce")
 
 def create_plant_image(plantImage,plantOrder,userId):
-    url = f'http://18.206.230.56:5002/user/{userId}/plants'
+    url = f'http://18.206.230.56:5002/plantImage'
     headers = {'Content-Type': 'application/json'}
     payload = {
         'base64': plantImage,  # Corrected to pass the user_id as an object with a 'userId' property
@@ -80,14 +80,14 @@ def test_any_plant_present():
     response_list = json.loads(response_json)
     element_count = len(response_list)
     print(element_count)
+
 def test_user_endpoint():
     create_user()
 
 def test_plant_endpoint():
-    userId = "66266df42fc41b0d13849d3e"
+    userId = "6628ced8f643fdeb5af0934d"
     plant_type = "lettuce"  # Corrected variable name from 'type' to 'plant_type' to avoid conflict
     create_plant(userId, "lettuce")
-
 
 
 def test_image_endpoint():
@@ -95,7 +95,7 @@ def test_image_endpoint():
     image = Image.open(file_path)
     image= image.resize((64, 64))
     encoded_image = encode_file_to_base64(image)
-    create_plant_image(encoded_image,0,"66266df42fc41b0d13849d3e")
+    create_plant_image(encoded_image,0,"6628ced8f643fdeb5af0934d")
 
-test_any_plant_present()
+test_image_endpoint()
 
