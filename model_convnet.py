@@ -8,7 +8,7 @@ tf.config.experimental.enable_op_determinism()
 train_data_dir = "C:/Users/volka/PycharmProjects/pythonProject1/imagesAll/train/augmented"  # Update with your train data directory path
 test_data_dir = "C:/Users/volka/PycharmProjects/pythonProject1/imagesAll/test/augmented"  # Update with your test data directory path
 batch_size = 128
-epoc_num= 15
+epoc_num= 14
 
 # Define image dimensions
 image_height = 128
@@ -101,4 +101,4 @@ plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
 plt.show()
 
-#model.save("mymodel")
+model.save("mymodel")

@@ -34,5 +34,5 @@ for class_name in os.listdir(original_dataset_dir):
         for batch in datagen.flow(x, batch_size=1, save_to_dir=augmented_class_dir, save_prefix='aug',
                                   save_format='jpeg'):
             i += 1
-            if i >5 :  # Save 20 augmented images per original image
+            if i >20 :  # Save 20 augmented images per original image
                 break
