@@ -16,7 +16,7 @@ def preprocess_image(image):
     return image_array
 
 # Path to the new image you want to make predictions on
-new_image_path = '1-5.jpeg'
+new_image_path = '1-5.jpg'
 
 # Open the image using PIL
 image = Image.open(new_image_path)
