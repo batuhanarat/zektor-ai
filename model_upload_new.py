@@ -30,7 +30,7 @@ for image_data in images_data:
   
 
     image = Image.fromarray(np.array(image_data["image"]["data"], dtype=np.uint8))
-
+    print(image)
 
     # Preprocess the image
     preprocessed_image = preprocess_image(image)
