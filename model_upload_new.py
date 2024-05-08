@@ -43,3 +43,8 @@ for image_data in images_data:
 # Print the predicted probabilities and IDs
 print("Predicted probabilities:", predictions)
 print("Image IDs:", ids)
+with open("predictions.txt", "w") as f:
+    for i in range(len(ids)):
+        f.write(f"Image ID: {ids[i]}, Predicted Probabilities: {predictions[i]}\n")
+
+print("Predictions saved to predictions.txt")
