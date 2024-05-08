@@ -2,6 +2,8 @@ import sys
 import json
 import numpy as np
 from PIL import Image
+import base64
+import cv2
 from tensorflow.keras.models import load_model
 
 # Load the saved model
