@@ -1,10 +1,10 @@
+import sys
+import json
 import numpy as np
 from PIL import Image
-
-from keras.saving import load_model
+from tensorflow.keras.models import load_model
 
 # Load the saved model
-#loaded_model = load_model('C:/Users/volka/Desktop/server/saved_model.pb')
 loaded_model = load_model("model.keras")
 
 # Function to preprocess an image before passing it to the model
@@ -15,27 +15,31 @@ def preprocess_image(image):
     image_array = np.expand_dims(image_array, axis=0)
     return image_array
 
-# Path to the new image you want to make predictions on
-new_image_path = '1-5.jpg'
+# Get the image data and IDs from the command line arguments
+images_data = json.loads(sys.argv[1])
 
-# Open the image using PIL
-image = Image.open(new_image_path)
+# Initialize lists to store predictions and IDs
+predictions = []
+ids = []
 
+# Iterate over the images and their corresponding IDs
+for image_data in images_data:
+    # Load the image from the image data
+    image = Image.fromarray(np.array(image_data["image"], dtype=np.uint8))
 
-# Preprocess the new image
-new_image = preprocess_image(image)
+    # Preprocess the image
+    preprocessed_image = preprocess_image(image)
 
-# Make predictions on the new image
-predictions = loaded_model.predict(new_image)
+    # Make predictions on the preprocessed image
+    prediction = loaded_model.predict(preprocessed_image)
 
-# Assuming your model outputs probabilities for different classes, you can print the predicted probabilities
+    # Assuming your model outputs probabilities for different classes,
+    # you can append the predicted probabilities to the predictions list
+    predictions.append(prediction.tolist()[0])
+
+    # Append the ID of the image to the IDs list
+    ids.append(image_data["id"])
+
+# Print the predicted probabilities and IDs
 print("Predicted probabilities:", predictions)
-
-# If you want to get the index of the class with the highest probability, you can use argmax
-predicted_class_index = np.argmax(predictions)
-print("Predicted class index:", predicted_class_index)
-
-# You might have a dictionary mapping class indices to class labels
-class_labels = {0: 'class1', 1: 'class2', 2: 'class3', 3: 'class4'}  # Example dictionary
-predicted_class_label = class_labels[predicted_class_index]
-print("Predicted class label:", predicted_class_label)
+print("Image IDs:", ids)
