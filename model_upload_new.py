@@ -24,8 +24,10 @@ ids = []
 
 # Iterate over the images and their corresponding IDs
 for image_data in images_data:
-    # Load the image from the image data
-    image = Image.fromarray(np.array(image_data["image"], dtype=np.uint8))
+    image_bytes = np.frombuffer(base64.b64decode(image_data["image"]), dtype=np.uint8)
+    
+    # Decode the image bytes into an image array
+    image = cv2.imdecode(image_bytes, cv2.IMREAD_COLOR)
 
     # Preprocess the image
     preprocessed_image = preprocess_image(image)
