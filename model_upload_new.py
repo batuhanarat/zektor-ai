@@ -26,6 +26,7 @@ ids = []
 
 # Iterate over the images and their corresponding IDs
 for image_data in images_data:
+    print(image_data["image"])
     image_bytes = np.frombuffer(base64.b64decode(image_data["image"]), dtype=np.uint8)
     
     # Decode the image bytes into an image array
