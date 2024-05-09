@@ -24,9 +24,12 @@ else:
     print(f"Image file not found at path: {new_image_path}")
 
 
-# Open the image using PIL
-image = Image.open(new_image_path)
-
+try:
+    image = Image.open(new_image_path)
+    print("Image opened successfully.")
+    # You can add further processing here, such as displaying the image or checking its properties
+except Exception as e:
+    print(f"Error opening image: {e}")
 # Preprocess the new image
 new_image = preprocess_image(new_image_path)
 
