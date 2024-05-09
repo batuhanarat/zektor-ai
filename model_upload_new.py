@@ -33,7 +33,7 @@ for image_data in images_data:
     prediction = loaded_model.predict(preprocessed_image)
     predicted_class_index = np.argmax(prediction)
     predicted_class_label = class_labels[predicted_class_index]                                 
-    predictions.append(predicted_class_label)
+    predictions.append(predicted_class_index)
     ids.append(image_data["id"])
 
 
