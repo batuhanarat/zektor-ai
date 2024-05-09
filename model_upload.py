@@ -1,6 +1,8 @@
 import numpy as np
 from PIL import Image
 from tensorflow.keras.models import load_model
+import os
+
 
 # Load the saved model
 loaded_model = load_model("model.keras")
