@@ -26,24 +26,15 @@ ids = []
 
 # Iterate over the images and their corresponding IDs
 for image_data in images_data:
-    print(image_data["image"]["data"])
-  
-
-    image = Image.fromarray(np.array(image_data["image"]["data"], dtype=np.uint8))
-    print(image)
-
-    # Preprocess the image
+    image_bytes = base64.b64decode(image_data["image"])
+    image = Image.open(io.BytesIO(image_bytes))
     preprocessed_image = preprocess_image(image)
-
-    # Make predictions on the preprocessed image
     prediction = loaded_model.predict(preprocessed_image)
-
-    # Assuming your model outputs probabilities for different classes,
-    # you can append the predicted probabilities to the predictions list
     predictions.append(prediction.tolist()[0])
-
-    # Append the ID of the image to the IDs list
     ids.append(image_data["id"])
+
+
+
 
 # Print the predicted probabilities and IDs
 print("Predicted probabilities:", predictions)
