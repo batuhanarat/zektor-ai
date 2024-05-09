@@ -16,6 +16,12 @@ def preprocess_image(image):
 # Path to the new image you want to make predictions on
 new_image_path = '1-5.jpg'
 
+if os.path.exists(new_image_path):
+    print(f"Image file found at path: {new_image_path}")
+else:
+    print(f"Image file not found at path: {new_image_path}")
+
+
 # Open the image using PIL
 image = Image.open(new_image_path)
 
