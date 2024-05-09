@@ -26,7 +26,7 @@ def preprocess_image(image):
 def send_predictions(predictions, image_ids, plant_ids):
     url = "http://54.208.55.232:5004/developmentPhaseOutput"
     data = {
-        'predictions': predictions,
+        'predictions':  [int(prediction) for prediction in predictions],
         'imageIds': image_ids,
         'plantIds' : plant_ids
     }
@@ -52,16 +52,18 @@ for image_data in images_data:
     predictions.append(predicted_class_index+1)
     image_ids.append(image_data["image_id"])
     plant_ids.append(image_data["plant_id"])
-
+    
+print("Predicted probabilities:", predictions)
+print("Image IDs:", image_ids)
+print("Plant IDs:", plant_ids)
 
 send_predictions(predictions,image_ids,plant_ids)
 
 
 # Print the predicted probabilities and IDs
-print("Predicted probabilities:", predictions)
-print("Image IDs:", ids)
+
 with open("predictions.txt", "w") as f:
-    for i in range(len(ids)):
-        f.write(f"Image ID: {ids[i]}, Predicted Probabilities: {predictions[i]}\n")
+    for i in range(len(image_ids)):
+        f.write(f" Plant ID: {plant_ids[i]},Image ID: {image_ids[i]}, Predicted Probabilities: {predictions[i]}\n")
 
 print("Predictions saved to predictions.txt")
