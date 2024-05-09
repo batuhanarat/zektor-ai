@@ -31,7 +31,7 @@ try:
 except Exception as e:
     print(f"Error opening image: {e}")
 # Preprocess the new image
-new_image = preprocess_image(new_image_path)
+new_image = preprocess_image( image)
 
 # Make predictions on the new image
 predictions = loaded_model.predict(new_image)
