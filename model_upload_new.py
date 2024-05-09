@@ -20,7 +20,7 @@ def preprocess_image(image):
 
 # Get the image data and IDs from the command line arguments
 images_data = json.loads(sys.argv[1])
-
+class_labels = {0: 'class1', 1: 'class2', 2: 'class3', 3: 'class4'}
 # Initialize lists to store predictions and IDs
 predictions = []
 ids = []
@@ -31,7 +31,9 @@ for image_data in images_data:
     image = Image.open(io.BytesIO(image_bytes))
     preprocessed_image = preprocess_image(image)
     prediction = loaded_model.predict(preprocessed_image)
-    predictions.append(prediction.tolist()[0])
+    predicted_class_index = np.argmax(prediction
+    predicted_class_label = class_labels[predicted_class_index]                                 
+    predictions.append(predicted_class_label)
     ids.append(image_data["id"])
 
 
