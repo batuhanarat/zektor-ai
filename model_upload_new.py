@@ -24,9 +24,10 @@ def preprocess_image(image):
     return image_array
 
 def send_predictions(predictions, image_ids, plant_ids):
+    def send_predictions(predictions, image_ids, plant_ids):
     url = "http://54.208.55.232:5004/developmentPhaseOutput"
     data = {
-        'predictions': predictions.tolist(),
+        'predictions': predictions,
         'imageIds': image_ids,
         'plantIds' : plant_ids
     }
@@ -35,6 +36,7 @@ def send_predictions(predictions, image_ids, plant_ids):
     print("Status Code:", response.status_code)  # Debug: Print status code
     print("Response Content:", response.text)
     return response
+
 
 # Get the image data and IDs from the command line arguments
 images_data = json.loads(sys.argv[1])
