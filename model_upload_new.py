@@ -24,7 +24,6 @@ def preprocess_image(image):
     return image_array
 
 def send_predictions(predictions, image_ids, plant_ids):
-    def send_predictions(predictions, image_ids, plant_ids):
     url = "http://54.208.55.232:5004/developmentPhaseOutput"
     data = {
         'predictions': predictions,
