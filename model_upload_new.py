@@ -2,10 +2,14 @@ import sys
 import json
 import numpy as np
 from PIL import Image
+import requests
 import base64
 import cv2
 import io
 from tensorflow.keras.models import load_model
+
+predictions = []
+ids = []
 
 # Load the saved model
 loaded_model = load_model("model.keras")
@@ -18,12 +22,22 @@ def preprocess_image(image):
     image_array = np.expand_dims(image_array, axis=0)
     return image_array
 
+def send_predictions(predictions, ids):
+    url = "http://54.208.55.232:5004/developmentPhaseOutput"
+    data = {
+        'predictions': predictions,
+        'ids': ids
+    }
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(url, json=data, headers=headers)
+    print("Status Code:", response.status_code)  # Debug: Print status code
+    print("Response Content:", response.text)
+    return response
+
 # Get the image data and IDs from the command line arguments
 images_data = json.loads(sys.argv[1])
 class_labels = {0: 'class1', 1: 'class2', 2: 'class3', 3: 'class4'}
 # Initialize lists to store predictions and IDs
-predictions = []
-ids = []
 
 # Iterate over the images and their corresponding IDs
 for image_data in images_data:
@@ -35,7 +49,7 @@ for image_data in images_data:
     predictions.append(predicted_class_index+1)
     ids.append(image_data["id"])
 
-
+send_predictions(predictions,ids)
 
 
 # Print the predicted probabilities and IDs
