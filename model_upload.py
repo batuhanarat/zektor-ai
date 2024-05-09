@@ -3,7 +3,7 @@ from PIL import Image
 from tensorflow.keras.models import load_model
 
 # Load the saved model
-loaded_model = load_model('mymodel')
+loaded_model = load_model("model.keras")
 
 # Function to preprocess an image before passing it to the model
 def preprocess_image(image):
@@ -14,7 +14,7 @@ def preprocess_image(image):
     return image_array
 
 # Path to the new image you want to make predictions on
-new_image_path = 'C:/Users/volka\PycharmProjects\pythonProject1\imagesAll/test/augmented/4/aug_0_1852.jpeg'
+new_image_path = '1-5.jpg'
 
 # Open the image using PIL
 image = Image.open(new_image_path)
