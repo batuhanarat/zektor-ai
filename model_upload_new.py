@@ -9,7 +9,8 @@ import io
 from tensorflow.keras.models import load_model
 
 predictions = []
-ids = []
+image_ids = []
+plant_ids = []
 
 # Load the saved model
 loaded_model = load_model("model.keras")
@@ -22,11 +23,12 @@ def preprocess_image(image):
     image_array = np.expand_dims(image_array, axis=0)
     return image_array
 
-def send_predictions(predictions, ids):
+def send_predictions(predictions, image_ids, plant_ids):
     url = "http://54.208.55.232:5004/developmentPhaseOutput"
     data = {
         'predictions': predictions,
-        'ids': ids
+        'imageIds': image_ids,
+        'plantIds' : plant_ids
     }
     headers = {'Content-Type': 'application/json'}
     response = requests.post(url, json=data, headers=headers)
@@ -47,9 +49,11 @@ for image_data in images_data:
     prediction = loaded_model.predict(preprocessed_image)
     predicted_class_index = np.argmax(prediction)
     predictions.append(predicted_class_index+1)
-    ids.append(image_data["id"])
+    image_ids.append(image_data["image_id"])
+    plant_ids.append(image_data["plant_id"])
 
-send_predictions(predictions,ids)
+
+send_predictions(predictions,image_ids,plant_ids)
 
 
 # Print the predicted probabilities and IDs
