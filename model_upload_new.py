@@ -13,7 +13,8 @@ image_ids = []
 plant_ids = []
 
 # Load the saved model
-loaded_model = load_model("model.keras")
+#loaded_model = load_model("model.keras")
+loaded_model = load_model("model2.keras")
 
 # Function to preprocess an image before passing it to the model
 def preprocess_image(image):
