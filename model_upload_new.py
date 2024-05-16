@@ -8,13 +8,16 @@ import cv2
 import io
 from tensorflow.keras.models import load_model
 
-predictions = []
+dev_predictions = []
+heath_predictions = []
+
 image_ids = []
 plant_ids = []
 
 # Load the saved model
 #loaded_model = load_model("model.keras")
-loaded_model = load_model("model2.keras")
+development_phase_model = load_model("model2.keras")
+health_status_model = load_model("model_health.keras")
 
 # Function to preprocess an image before passing it to the model
 def preprocess_image(image):
@@ -24,8 +27,21 @@ def preprocess_image(image):
     image_array = np.expand_dims(image_array, axis=0)
     return image_array
 
-def send_predictions(predictions, image_ids, plant_ids):
+def send_dev_predictions(predictions, image_ids, plant_ids):
     url = "http://54.208.55.232:5004/developmentPhaseOutput"
+    data = {
+        'predictions':  [int(prediction) for prediction in predictions],
+        'imageIds': image_ids,
+        'plantIds' : plant_ids
+    }
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(url, json=data, headers=headers)
+    print("Status Code:", response.status_code)  # Debug: Print status code
+    print("Response Content:", response.text)
+    return response
+
+def send_health_predictions(predictions, image_ids, plant_ids):
+    url = "http://54.208.55.232:5004/healthStatusOutput"
     data = {
         'predictions':  [int(prediction) for prediction in predictions],
         'imageIds': image_ids,
@@ -48,23 +64,32 @@ for image_data in images_data:
     image_bytes = base64.b64decode(image_data["image"])
     image = Image.open(io.BytesIO(image_bytes))
     preprocessed_image = preprocess_image(image)
-    prediction = loaded_model.predict(preprocessed_image)
-    predicted_class_index = np.argmax(prediction)
-    predictions.append(predicted_class_index+1)
+    dev_predictions = development_phase_model.predict(preprocessed_image)
+    heath_predictions = health_status_model.predict(preprocessed_image)
+
+    predicted_dev_class_index = np.argmax(dev_predictions)
+    predicted_health_class_index = np.argmax(heath_predictions)
+
+    dev_predictions.append(predicted_dev_class_index+1)
+    heath_predictions.append(predicted_health_class_index)
+
     image_ids.append(image_data["image_id"])
     plant_ids.append(image_data["plant_id"])
     
-print("Predicted probabilities:", predictions)
+print("Predicted dev probabilities:", dev_predictions)
+print("Predicted health probabilities:", heath_predictions)
 print("Image IDs:", image_ids)
 print("Plant IDs:", plant_ids)
 
-send_predictions(predictions,image_ids,plant_ids)
+send_dev_predictions(dev_predictions,image_ids,plant_ids)
+send_predictions(heath_predictions,image_ids,plant_ids)
 
 
 # Print the predicted probabilities and IDs
 
 with open("predictions.txt", "w") as f:
     for i in range(len(image_ids)):
-        f.write(f" Plant ID: {plant_ids[i]},Image ID: {image_ids[i]}, Predicted Probabilities: {predictions[i]}\n")
+        f.write(f" Plant ID: {plant_ids[i]},Image ID: {image_ids[i]}, Predicted Dev Probabilities: {dev_predictions[i]}\n")
+        f.write(f" Plant ID: {plant_ids[i]},Image ID: {image_ids[i]}, Predicted Health Probabilities: {heath_predictions[i]}\n")
 
 print("Predictions saved to predictions.txt")
